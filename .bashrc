@@ -103,3 +103,11 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# Nix Utilities Commands
+if [ -f ~/.config/setup_nix.sh ]; then
+    . ~/.config/setup_nix.sh
+fi
+
+# Environment Variables
+export EDITOR=nvim
