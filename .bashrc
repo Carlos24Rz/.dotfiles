@@ -109,5 +109,21 @@ if [ -f ~/.config/setup_nix.sh ]; then
     . ~/.config/setup_nix.sh
 fi
 
+#################
+# Tmux Commands
+#################
+
+# Start new session
+function tstart()
+{
+	tmux new -s $1;
+}
+
+# Attach to existing session
+function tattach()
+{
+	tmux attach -t $1;
+}
+
 # Environment Variables
 export EDITOR=nvim
