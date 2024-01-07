@@ -18,7 +18,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-shopt -s globstar
+# shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -107,6 +107,16 @@ fi
 # Nix Utilities Commands
 if [ -f ~/.config/setup_nix.sh ]; then
     . ~/.config/setup_nix.sh
+fi
+
+################
+# FZF
+################
+
+# Enable fzf bash completion 
+if command -v fzf-share > /dev/null; then
+	source "$(fzf-share)/key-bindings.bash"
+	source "$(fzf-share)/completion.bash"
 fi
 
 #################
