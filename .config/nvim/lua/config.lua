@@ -16,7 +16,8 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.shiftwidth = 2
 vim.o.tabstop = 2
-vim.o.background = "dark"
+-- vim.o.background = "dark"
+vim.o.updatetime = 500
 
 vim.opt.listchars = {
   tab = '-▸',
@@ -45,9 +46,6 @@ require("lazy").setup("plugins")
 
 -- Lualine
 require("lualine").setup {
-  options = {
-    theme = 'gruvbox-material',
-  },
   tabline = {
     lualine_a = {'buffers'},
   },
@@ -55,11 +53,33 @@ require("lualine").setup {
 
 -- LSP
 
+local lint = require("lint")
+
+lint.linters_by_ft = {
+  c = {'clangtidy',}
+}
+
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local lspconfig = require('lspconfig')
 lspconfig.clangd.setup{
   capabilities = capabilities,
+  on_attach = function(client, bufnr)
+    vim.api.nvim_create_autocmd("CursorHold", {
+      buffer = bufnr,
+      callback = function()
+        local opts = {
+          focusable = false,
+          close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+          border = 'rounded',
+          source = 'always',
+          prefix = ' ',
+          scope = 'cursor',
+        }
+        vim.diagnostic.open_float(nil, opts)
+      end
+    })
+  end
 }
 
 local luasnip = require("luasnip")
@@ -104,7 +124,15 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+
+-- Diagnostics settings
+vim.diagnostic.config({
+  virtual_text = false,
+  update_in_insert = true,
+})
+
 ------------------------------
 -- Colorscheme
 ------------------------------
-vim.cmd [[colorscheme gruvbox-material]]
+--vim.cmd [[colorscheme gruvbox-material]]
