@@ -3,11 +3,14 @@ function nixsetup()
 {
 	echo "Installing nix..."
 	sh <(curl -L https://nixos.org/nix/install) --daemon;
-	source /etc/profile;
+}
 
+# Install all packages in nix_packages.yaml
+function nixall()
+{
 	echo "Installing packages"
         if [ -f ~/.config/nix_packages.yaml ]; then
-		cat ~/.config/nix_packages.yaml | sed -n 's/^-\s\(.*\)$/\1/p' | xargs -n 1 nix-env -iA;
+		cat ~/.config/nix_packages.yaml | sed -n 's/^-\s\(.*\)$/\1/p' | awk '{print "nixpkgs." $0}' |xargs -n 1 nix-env -iA;
 	fi
 }
 
