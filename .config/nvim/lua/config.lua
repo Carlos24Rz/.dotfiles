@@ -16,7 +16,7 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.shiftwidth = 2
 vim.o.tabstop = 2
--- vim.o.background = "dark"
+vim.o.termguicolors = true
 vim.o.updatetime = 500
 
 vim.opt.listchars = {
@@ -42,16 +42,36 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins")
+require("lazy").setup("plugins", {
+  dev = {
+    path = vim.fn.stdpath("config") .. "/my-plugins",
+  },
+})
+
+-- Telescope
+local telescope = require('telescope')
+telescope.setup {
+  extensions = {
+    helpgrep = {
+      ignore_paths = {
+        vim.fn.stdpath("state") .. "/lazy/readme",
+      },
+    },
+  }
+}
+telescope.load_extension('helpgrep')
 
 -- Lualine
 require("lualine").setup {
+  options = {
+    theme = 'dracula',
+  },
   tabline = {
     lualine_a = {'buffers'},
   },
 }
 
--- LSP
+-- Linter
 
 local lint = require("lint")
 
@@ -59,10 +79,19 @@ lint.linters_by_ft = {
   c = {'clangtidy',}
 }
 
+vim.api.nvim_create_autocmd({"BufWritePost", "BufReadPost"}, {
+  callback = function()
+    lint.try_lint()
+  end
+})
+
+-- Lsp
+
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local lspconfig = require('lspconfig')
-lspconfig.clangd.setup{
+
+lspconfig.clangd.setup {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
     vim.api.nvim_create_autocmd("CursorHold", {
@@ -81,6 +110,8 @@ lspconfig.clangd.setup{
     })
   end
 }
+
+-- Autocompletion + snippets
 
 local luasnip = require("luasnip")
 
@@ -125,14 +156,19 @@ cmp.setup {
   },
 }
 
-
 -- Diagnostics settings
 vim.diagnostic.config({
   virtual_text = false,
   update_in_insert = true,
 })
 
+-- Autosave files
+
+local autosave = require("autosave")
+
+autosave.setup(5000)
+
 ------------------------------
 -- Colorscheme
 ------------------------------
---vim.cmd [[colorscheme gruvbox-material]]
+vim.cmd [[colorscheme dracula]]
