@@ -156,11 +156,47 @@ cmp.setup {
   },
 }
 
+-- Diagnostic handlers
+local underline_def_hdl = vim.diagnostic.handlers.underline
+
+vim.diagnostic.handlers.underline = {
+  show = function(namespace, bufnr, diagnostics, opts)
+
+    local ns = vim.diagnostic.get_namespace(namespace)
+    
+    if ns.name ~= "clangtidy" then
+      underline_def_hdl.show(namespace, bufnr, diagnostics, opts)
+      return
+    end
+
+    for _, diag in ipairs(diagnostics) do
+      if diag.lnum == diag.end_lnum then
+        diag.end_col = diag.end_col + 1
+      end
+    end
+
+    underline_def_hdl.show(namespace, bufnr, diagnostics, opts)
+  end,
+  hide = underline_def_hdl.hide,
+}
+
 -- Diagnostics settings
 vim.diagnostic.config({
   virtual_text = false,
   update_in_insert = true,
+  severity_sort = true,
 })
+
+local signs = {
+  DiagnosticSignError = " ",
+  DiagnosticSignWarn = " ",
+  DiagnosticSignHint = " ",
+  DiagnosticSignInformation = " ",
+}
+
+for hl, icon in pairs(signs) do
+  vim.fn.sign_define(hl, { text = icon, texthl = hl })
+end
 
 -- Autosave files
 
