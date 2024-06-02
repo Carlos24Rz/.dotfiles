@@ -1,9 +1,15 @@
 -- Move between buffers
-vim.keymap.set('n', "<C-j>", vim.cmd.bprev, { desc = "Previous Buffer" })
-vim.keymap.set('n', "<C-k>", vim.cmd.bnext, { desc = "Next Buffer" })
+vim.keymap.set('n', "<C-j>", vim.cmd.bprev, { desc = "Previous Buffer" }) -- Move to previous buffer
+vim.keymap.set('n', "<C-k>", vim.cmd.bnext, { desc = "Next Buffer" }) -- Move to next buffer
+
+-- Window Resizing
+vim.keymap.set('n', "<S-j>", function() vim.cmd([[resize -5]]) end, { desc = "Decrease window height"}) -- Decrease height
+vim.keymap.set('n', "<S-k>", function() vim.cmd([[resize +5]]) end, { desc = "Increase window height"}) -- Increase height
+vim.keymap.set('n', "<S-h>", function() vim.cmd([[vertical resize -5]]) end, { desc = "Decrease window width"}) -- Decrease width
+vim.keymap.set('n', "<S-l>", function() vim.cmd([[vertical resize +5]]) end, { desc = "Increase window width"}) -- Increase width
 
 -- [NvimTree] Toogle explorer
-vim.keymap.set('n', "<Leader>e",  vim.cmd("NvimTreeToggle"), { desc = "Toogle Explorer" })
+vim.keymap.set('n', "<Leader>e", function() vim.cmd("NvimTreeToggle") end, { desc = "Toogle Explorer" })
 
 
 -- [Telescope]
