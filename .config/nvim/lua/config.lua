@@ -29,9 +29,6 @@ require("nvim-tree").setup({
   }
 })
 
--- Git gutter signs
-require("gitsigns").setup()
-
 -- Mason
 require("mason").setup()
 require("mason-lspconfig").setup {
@@ -111,37 +108,6 @@ vim.diagnostic.config({
     border = "rounded"
   }
 })
-
-require("noice").setup({
-  lsp = {
-    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-    override = {
-      ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-      ["vim.lsp.util.stylize_markdown"] = true,
-      ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-    },
-  },
-  presets = {
-    lsp_doc_border = true
-  },
-  cmdline = {
-    enabled = false
-  },
-  messages = {
-    enabled = false
-  },
-  popupmenu = {
-    enabled = false
-  },
-  notify = {
-    enabled = false
-  }
-})
--- require("lsp_signature").setup {
---   hint_enable = false,
---   zindex = 10,
---   wrap = true,
--- }
 
 -- Autopairs
 require("nvim-autopairs").setup {}

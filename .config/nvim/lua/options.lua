@@ -14,4 +14,3 @@ vim.opt.listchars = {
   tab = '>-',
   trail = '-'
 }
-vim.opt.pumheight = 10 -- Show only 10 items in pop-up menus
