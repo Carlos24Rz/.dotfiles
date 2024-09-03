@@ -1,3 +1,6 @@
+-- Set Local leader
+vim.g.mapleader = " "
+
 -- Lazy.nvim setup
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -12,15 +15,14 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Set Local leader
-vim.g.mapleader = " "
-
--- Load modules
-require("lazy").setup("plugins", {
-  install = {
-    colorscheme = { "onedark" }
-  }
-})
-require("config")
+-- Load options
 require("options")
-require("mappings")
+
+-- Load keymaps
+require("keymaps")
+
+-- Load plugins
+require("lazy").setup("plugins")
+
+-- Load configuration
+require("config")
