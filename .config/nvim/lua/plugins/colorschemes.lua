@@ -10,16 +10,4 @@ return {
       vim.cmd("colorscheme arctic")
     end
   },
-  {
-    "olimorris/onedarkpro.nvim",
-    lazy = true
-  },
-  {
-    "oxfist/night-owl.nvim",
-    lazy = true
-  },
-  {
-    "alexmozaidze/palenight.nvim",
-    lazy = true
-  },
 }
